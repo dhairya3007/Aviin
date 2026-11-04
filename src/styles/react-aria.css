@@ -1,0 +1,101 @@
+/* ==========================================================================
+   REACT ARIA COMPONENTS (RAC) ACCESSIBILITY & LUXURY STYLING
+   ========================================================================== */
+
+.react-aria-Form {
+  width: 100%;
+}
+
+.react-aria-TextField {
+  width: 100%;
+}
+
+.react-aria-Label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  color: var(--aviin-navy);
+  user-select: none;
+}
+
+.react-aria-Input {
+  background-color: #faf9f6;
+  border: 1px solid rgba(35, 31, 54, 0.15);
+  color: var(--aviin-navy);
+  font-family: inherit;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.react-aria-Input[data-hovered] {
+  border-color: rgba(35, 31, 54, 0.32);
+}
+
+.react-aria-Input[data-focused] {
+  background-color: #ffffff;
+  border-color: var(--aviin-gold);
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.18);
+  outline: none;
+}
+
+.react-aria-Input[data-invalid] {
+  border-color: #e11d48;
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12);
+}
+
+.react-aria-FieldError {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #be123c;
+}
+
+.react-aria-Button {
+  user-select: none;
+  touch-action: manipulation;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.react-aria-Button[data-focus-visible] {
+  outline: 2px solid var(--aviin-gold);
+  outline-offset: 2px;
+}
+
+.react-aria-Button[data-pressed] {
+  transform: scale(0.985);
+}
+
+.react-aria-Button[data-disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.react-aria-RadioGroup {
+  width: 100%;
+}
+
+.react-aria-Radio {
+  outline: none;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.react-aria-Radio[data-hovered]:not([data-selected]) {
+  border-color: rgba(197, 160, 89, 0.6);
+  background-color: #f6f3eb;
+}
+
+.react-aria-Radio[data-focus-visible] {
+  outline: 2px solid var(--aviin-gold);
+  outline-offset: 2px;
+}
+
+.react-aria-Radio[data-selected] {
+  background-color: var(--aviin-navy);
+  color: #ffffff;
+  border-color: var(--aviin-navy);
+  box-shadow: 0 4px 14px rgba(35, 31, 54, 0.18);
+}
+

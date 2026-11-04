@@ -1,0 +1,129 @@
+/* ==========================================================================
+   AVIIN PURE LUXURY CLOTHING — THEME, VARIABLES & BASE STYLES
+   ========================================================================== */
+
+:root {
+  /* Brand Palette (Soft Haute Couture Luxury) */
+  --bg-pure: #ffffff;
+  --bg-cream: #fcfbf9;
+  --bg-card: #ffffff;
+  --bg-input: #faf9f6;
+  --aviin-navy: #2d283e;
+  --aviin-navy-hover: #221e30;
+  --aviin-dark: #201b2d;
+  --aviin-darker: #171321;
+  --aviin-gold: #c5a059;
+  --aviin-gold-light: #e6cca0;
+  --aviin-gold-dark: #8e6f30;
+  --aviin-gold-bg: #f6f2e8;
+  --aviin-muted: #8e8a9b;
+  --aviin-border: rgba(45, 40, 62, 0.12);
+  --aviin-border-hover: rgba(45, 40, 62, 0.28);
+  --aviin-border-gold: rgba(197, 160, 89, 0.38);
+
+  /* Responsive Preloader Stage */
+  --stage-size: clamp(240px, 46vmin, 440px);
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(35, 31, 54, 0.04);
+  --shadow-md: 0 8px 30px rgba(35, 31, 54, 0.06);
+  --shadow-lg: 0 15px 50px rgba(35, 31, 54, 0.08);
+  --shadow-gold: 0 4px 20px rgba(197, 160, 89, 0.25);
+}
+
+/* Global Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-cream);
+  color: var(--aviin-navy);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* Haute Couture Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f2ec;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--aviin-gold);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--aviin-gold-dark);
+}
+
+/* Reusable Utility Animations */
+.aviin-app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-cream);
+  color: var(--aviin-navy);
+}
+
+.aviin-main-content {
+  flex: 1;
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(1.04); }
+}
+
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes pingPulse {
+  0% { transform: scale(1); opacity: 1; }
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}

@@ -1,0 +1,838 @@
+/* ==========================================================================
+   AVIIN CINEMATIC PRELOADER-TO-HERO TRANSITION & MINIMALIST BODY
+   ========================================================================== */
+
+.coming-soon-stage {
+  min-height: 100dvh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-cream);
+  text-align: center;
+  transition: background-color 1s ease;
+}
+
+/* Ambient Subtle Radial Glow */
+.ambient-glow-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(720px, 94vw);
+  height: min(720px, 94vw);
+  background: radial-gradient(
+    circle,
+    rgba(0, 222, 154, 0.05) 0%,
+    rgba(0, 229, 255, 0.05) 30%,
+    rgba(158, 0, 237, 0.04) 60%,
+    transparent 80%
+  );
+  border-radius: 50%;
+  filter: blur(75px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   CENTRAL BRAND BODY STACK (Logo, Heading, Subtitle, Form)
+   ========================================================================== */
+.central-body-stack {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 680px;
+}
+
+/* Preloader Logo Stage Anchor (Silky GPU Transform Ascent — Zero Box Model Shifts) */
+.brand-stage-anchor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 6;
+  will-change: transform;
+  transform-origin: center center;
+  transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stage-loading .brand-stage-anchor {
+  transform: translateY(clamp(95px, 14vh, 128px)) scale(1);
+}
+
+.stage-settled .brand-stage-anchor {
+  transform: translateY(0px) scale(0.72);
+}
+
+@media (max-width: 600px) {
+  .stage-loading .brand-stage-anchor {
+    transform: translateY(clamp(75px, 12vh, 98px)) scale(0.92);
+  }
+  .stage-settled .brand-stage-anchor {
+    transform: translateY(0px) scale(0.62);
+  }
+}
+
+/* Seamless Handover: Perched Preloader Bird gracefully dissolves when takeoff starts */
+.perch-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Soft, Luminous Luxury Ink for the Wordmark */
+.logo-ink-path {
+  fill: #2e283e;
+  fill: url(#luxuryInkGrad);
+  transition: fill 0.4s ease;
+}
+
+/* ==========================================================================
+   CONTENT FADE & SLIDE REVEAL BENEATH SETTLED LOGO
+   ========================================================================== */
+.coming-soon-content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible;
+  will-change: transform, opacity;
+  transition:
+    opacity 1.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stage-loading .coming-soon-content {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(32px);
+}
+
+.stage-settled .coming-soon-content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0px);
+}
+
+/* ==========================================================================
+   RESPONSIVE HEADING & RIGHT-FLANK BIRD STAGE
+   - Width matches the text width exactly
+   - Bird is anchored to 'left: 100%' with positive margin-left
+   - Guaranteed 0% overlap on all screen widths
+   ========================================================================== */
+.heading-bird-stage {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
+}
+
+/* Prominent COMING SOON Heading (Single horizontal line, luxury editorial serif) */
+.coming-soon-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 4vw, 3rem);
+  font-weight: 400;
+  letter-spacing: clamp(0.16em, 0.20em, 0.24em);
+  text-transform: uppercase;
+  color: var(--aviin-navy, #2d283e);
+  white-space: nowrap;
+  margin: 0.25rem 0 0.85rem;
+  line-height: 1.15;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 480px) {
+  .coming-soon-heading {
+    font-size: clamp(1.35rem, 5.8vw, 1.8rem);
+    letter-spacing: 0.14em;
+  }
+}
+
+/* Supporting Description */
+.brand-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 1.9vw, 14.5px);
+  font-weight: 300;
+  color: rgba(45, 40, 62, 0.70);
+  line-height: 1.68;
+  max-width: 480px;
+  margin-bottom: 1.4rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   MINIMAL LUXURY SUBSCRIBE FORM (WhatsApp Option Above Email Field)
+   ========================================================================== */
+.minimal-subscribe-form {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+/* 1. WHATSAPP OPTION (Positioned ABOVE the email field) */
+.whatsapp-optin-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 480px;
+  padding: 0.65rem 1.15rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(197, 160, 89, 0.28);
+  box-shadow: 0 2px 12px rgba(45, 40, 62, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.25s ease;
+}
+
+.whatsapp-optin-row:hover {
+  border-color: rgba(197, 160, 89, 0.55);
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(45, 40, 62, 0.06);
+}
+
+.whatsapp-optin-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.whatsapp-optin-label {
+  font-size: 13px;
+  font-weight: 450;
+  color: rgba(45, 40, 62, 0.78);
+  letter-spacing: 0.015em;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.whatsapp-optin-row:hover .whatsapp-optin-label {
+  color: var(--aviin-navy, #2d283e);
+}
+
+.wa-toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.wa-toggle-switch {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 38px;
+  height: 22px;
+  background: rgba(45, 40, 62, 0.16);
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.wa-toggle-switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wa-toggle-switch:checked {
+  background: linear-gradient(90deg, #00b884, #12c75c);
+  box-shadow: 0 2px 8px rgba(18, 199, 92, 0.28);
+}
+
+.wa-toggle-switch:checked::after {
+  transform: translateX(16px);
+}
+
+/* 2. SMOOTH PHONE NUMBER DRAWER (Revealed when WhatsApp is activated) */
+.phone-drawer {
+  width: 100%;
+  max-width: 480px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-bottom: 0;
+  transition: max-height 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease, margin-bottom 0.32s ease;
+}
+
+.phone-drawer.open {
+  max-height: 70px;
+  opacity: 1;
+  margin-bottom: 0.75rem;
+}
+
+.single-phone-row {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--aviin-border);
+  border-radius: 999px;
+  padding: 4px 6px 4px 20px;
+  box-shadow: 0 4px 20px rgba(45, 40, 62, 0.05);
+  display: flex;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.single-phone-row:focus-within {
+  border-color: var(--aviin-gold);
+  box-shadow: 0 6px 24px rgba(197, 160, 89, 0.22);
+}
+
+.single-phone-row.has-error {
+  border-color: #e11d48 !important;
+  box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.15) !important;
+}
+
+.single-phone-input {
+  width: 100%;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 13.5px;
+  color: var(--aviin-navy, #2d283e);
+  padding: 0.75rem 0.5rem;
+  font-family: inherit;
+}
+
+.single-phone-input::placeholder {
+  color: rgba(45, 40, 62, 0.42);
+}
+
+/* 3. SINGLE EMAIL BOX & NOTIFY ME BUTTON */
+.single-input-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--aviin-border);
+  border-radius: 999px;
+  padding: 5px 6px 5px 20px;
+  box-shadow: 0 4px 20px rgba(45, 40, 62, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.single-input-row:hover {
+  border-color: rgba(197, 160, 89, 0.6);
+  box-shadow: 0 6px 24px rgba(45, 40, 62, 0.08);
+}
+
+.single-input-row:focus-within {
+  border-color: var(--aviin-gold);
+  box-shadow: 0 8px 30px rgba(197, 160, 89, 0.28);
+}
+
+.single-input-row.has-error {
+  border-color: #e11d48 !important;
+  box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.15) !important;
+}
+
+.single-email-input,
+.single-email-input.react-aria-Input,
+.single-email-input[data-focused],
+.single-email-input[data-hovered],
+.single-email-input:focus,
+.single-email-input:focus-visible {
+  flex: 1;
+  width: 100%;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  font-size: 14px;
+  color: var(--aviin-navy, #2d283e);
+  padding: 0.75rem 0.5rem;
+  font-family: inherit;
+}
+
+.single-email-input::placeholder {
+  color: rgba(45, 40, 62, 0.4);
+}
+
+@media (max-width: 500px) {
+  .single-input-row {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 16px;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .single-email-input,
+  .single-email-input.react-aria-Input,
+  .single-email-input[data-focused],
+  .single-email-input[data-hovered],
+  .single-email-input:focus,
+  .single-email-input:focus-visible {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .single-submit-btn {
+    width: 100%;
+  }
+}
+
+/* Clean, Minimal Luxury Submit Button ("Notify Me") */
+.single-submit-btn {
+  background-color: var(--aviin-navy, #2d283e);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.single-submit-btn:hover {
+  background-color: #201b2d;
+}
+
+.single-submit-btn[data-pressed] {
+  opacity: 0.9;
+}
+
+.single-submit-btn[data-disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Form Validation Alert */
+.single-form-error {
+  margin-top: 0.85rem;
+  font-size: 12.5px;
+  color: #be123c;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  display: inline-block;
+  animation: errorFadeSlide 0.25s ease forwards;
+}
+
+@keyframes errorFadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   MINIMAL SUCCESS CONFIRMATION CARD
+   ========================================================================== */
+.minimal-success-card {
+  background: #ffffff;
+  border: 1px solid var(--aviin-border-gold);
+  border-radius: 18px;
+  padding: 2rem 2.25rem;
+  box-shadow: var(--shadow-lg);
+  max-width: 460px;
+  width: 100%;
+  animation: fadeInModal 0.35s ease forwards;
+}
+
+.minimal-success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--aviin-gold-bg);
+  border: 1px solid var(--aviin-border-gold);
+  color: var(--aviin-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.minimal-success-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  color: var(--aviin-navy, #2d283e);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.minimal-success-desc {
+  font-size: 13px;
+  color: rgba(45, 40, 62, 0.72);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.minimal-vip-badge {
+  font-family: monospace;
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  color: var(--aviin-navy, #2d283e);
+  background: var(--bg-input);
+  border: 1px solid var(--aviin-border-gold);
+  border-radius: 8px;
+  padding: 6px 14px;
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+}
+
+.minimal-success-reset {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--aviin-muted);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.minimal-success-reset:hover {
+  color: var(--aviin-navy, #2d283e);
+}
+
+/* ==========================================================================
+   RIGHT-SIDE HOVERING & PECKING HUMMINGBIRD (Strictly on the Right Side)
+   - Anchored to 'left: 100%' of .heading-bird-stage
+   - Stays always 14px to the right of letter 'N' across ALL screen sizes
+   - 0% overlap guaranteed, 100% responsive
+   - Single continuous, liquid-smooth 120fps GPU flight loop
+   ========================================================================== */
+.right-side-bird-anchor {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 14px;
+  width: 88px;
+  height: 68px;
+  pointer-events: none;
+  z-index: 20;
+  overflow: visible;
+  opacity: 0; /* JS Web Animations API handles the takeoff flight path dynamically */
+}
+
+/* Layer 1: Macro Flight Vehicle (Continuous, Smooth 120fps GPU Motion) */
+.right-side-bird-vehicle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 88px;
+  height: 68px;
+  pointer-events: none;
+  will-change: transform;
+  transform-origin: 44px 34px;
+  transform: translate3d(0px, 0px, 0);
+  animation: smoothMacroFlightTrajectory 9.5s linear 3.6s infinite;
+}
+
+/* Layer 2: Interaction Pivot (Biological Hover Bob & Delicately Poised Pecks) */
+.bird-interaction-pivot {
+  width: 100%;
+  height: 100%;
+  transform-origin: 75px 35px;
+  will-change: transform;
+  transform: translate3d(0px, 0px, 0) rotate(0deg);
+  animation: birdHoverPeckChoreography 9.5s ease-in-out 3.6s infinite;
+}
+
+.flying-hummingbird-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* Wing flapping & tail dynamics (ultra-rapid realistic hummingbird flutter) */
+.flight-wing-primary {
+  transform-origin: 848px 447px;
+  will-change: transform;
+  animation: continuousWingFlap 0.055s ease-in-out infinite alternate;
+}
+
+.flight-wing-secondary {
+  transform-origin: 848px 450px;
+  will-change: transform;
+  animation: continuousUnderWingFlap 0.055s ease-in-out infinite alternate-reverse;
+}
+
+.flight-tail-feathers {
+  transform-origin: 866px 474px;
+  will-change: transform;
+  animation: continuousTailBalance 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes continuousWingFlap {
+  0% {
+    transform: rotate(4deg) scaleY(1.05) skewX(2deg);
+  }
+  100% {
+    transform: rotate(-34deg) scaleY(0.60) skewX(-14deg);
+  }
+}
+
+@keyframes continuousUnderWingFlap {
+  0% {
+    transform: rotate(6deg) scaleY(1.05) skewX(1deg);
+  }
+  100% {
+    transform: rotate(-24deg) scaleY(0.68) skewX(-8deg);
+  }
+}
+
+@keyframes continuousTailBalance {
+  0% {
+    transform: rotate(-3deg) scaleX(0.96);
+  }
+  100% {
+    transform: rotate(5deg) scaleX(1.04);
+  }
+}
+
+/* ==========================================================================
+   LAYER 1 KEYFRAMES: SMOOTH MACRO FLIGHT TRAJECTORY (ZERO MICRO-STOPS)
+   Active, fluid, continuous 9.5s loop across right flank stations
+   ========================================================================== */
+@keyframes smoothMacroFlightTrajectory {
+  /* STATION 1: Poised at "COMING SOON" Heading (0% - 14%) */
+  0% {
+    transform: translate3d(0px, 0px, 0) rotate(-6deg);
+    animation-timing-function: ease-in-out;
+  }
+  14% {
+    transform: translate3d(0px, 0px, 0) rotate(-6deg);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+
+  /* FLIGHT DOWN 1: Silky Smooth Glide to WhatsApp Toggle (14% - 28%) */
+  28% {
+    transform: translate3d(14px, 104px, 0) rotate(-4deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  /* STATION 2: Poised at WhatsApp Toggle Switch (28% - 42%) */
+  42% {
+    transform: translate3d(14px, 104px, 0) rotate(-4deg);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+
+  /* FLIGHT DOWN 2: Silky Smooth Glide to Notify Me Button (42% - 56%) */
+  56% {
+    transform: translate3d(16px, 162px, 0) rotate(-5deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  /* STATION 3: Poised at "Notify Me" Submit Button (56% - 70%) */
+  70% {
+    transform: translate3d(16px, 162px, 0) rotate(-5deg);
+    animation-timing-function: cubic-bezier(0.32, 0, 0.22, 1);
+  }
+
+  /* FLIGHT UP: Grand Soaring Climbing Arc through Open Space (70% - 86%) */
+  86% {
+    transform: translate3d(58px, 68px, 0) rotate(-18deg);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  /* DECELERATION & INWARD RETURN TO COMING SOON (86% - 100%) */
+  100% {
+    transform: translate3d(0px, 0px, 0) rotate(-6deg);
+  }
+}
+
+/* ==========================================================================
+   LAYER 2 KEYFRAMES: BIOLOGICAL HOVER & REALISTIC DUAL PECKING
+   Synchronized to the 9.5s loop; operates relative to vehicle coordinates
+   ========================================================================== */
+@keyframes birdHoverPeckChoreography {
+  /* --- Station 1: COMING SOON Font Pecking & Hover (0% - 14%) --- */
+  0% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+  3% {
+    transform: translate3d(1px, -3px, 0) rotate(2deg);
+  }
+  6% {
+    transform: translate3d(-12px, 3px, 0) rotate(-14deg);
+  }
+  9% {
+    transform: translate3d(-2px, -1px, 0) rotate(-2deg);
+  }
+  11% {
+    transform: translate3d(-10px, 2px, 0) rotate(-12deg);
+  }
+  14% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+
+  /* --- During Flight Down 1: Aerodynamic Streamlined Gliding Tilt (14% - 28%) --- */
+  20% {
+    transform: translate3d(3px, 0px, 0) rotate(12deg);
+  }
+  26% {
+    transform: translate3d(1px, 0px, 0) rotate(2deg);
+  }
+  28% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+
+  /* --- Station 2: WhatsApp Toggle Pecking & Hover (28% - 42%) --- */
+  32% {
+    transform: translate3d(-3px, 1px, 0) rotate(-6deg);
+  }
+  35% {
+    transform: translate3d(-13px, 3px, 0) rotate(-16deg);
+  }
+  38% {
+    transform: translate3d(-2px, -1px, 0) rotate(-2deg);
+  }
+  40% {
+    transform: translate3d(-10px, 3px, 0) rotate(-14deg);
+  }
+  42% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+
+  /* --- During Flight Down 2: Aerodynamic Streamlined Glide Tilt (42% - 56%) --- */
+  48% {
+    transform: translate3d(3px, 0px, 0) rotate(12deg);
+  }
+  54% {
+    transform: translate3d(1px, 0px, 0) rotate(2deg);
+  }
+  56% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+
+  /* --- Station 3: Notify Me Button Pecking & Hover (56% - 70%) --- */
+  60% {
+    transform: translate3d(-3px, 1px, 0) rotate(-6deg);
+  }
+  63% {
+    transform: translate3d(-13px, 3px, 0) rotate(-16deg);
+  }
+  66% {
+    transform: translate3d(-2px, -1px, 0) rotate(-2deg);
+  }
+  68% {
+    transform: translate3d(2px, -3px, 0) rotate(2deg);
+  }
+  70% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+
+  /* --- During Flight Up: Natural Upward Banking Tilt (70% - 86%) --- */
+  76% {
+    transform: translate3d(4px, 0px, 0) rotate(-12deg);
+  }
+  82% {
+    transform: translate3d(2px, 0px, 0) rotate(-6deg);
+  }
+  86% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+
+  /* --- Inward Return Deceleration (86% - 100%) --- */
+  93% {
+    transform: translate3d(1px, 0px, 0) rotate(-3deg);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+}
+
+/* Responsive adjustment for Mobile screens */
+@media (max-width: 600px) {
+  .right-side-bird-anchor {
+    margin-left: 8px; /* Tighter 8px margin on mobile screens */
+    width: 68px;
+    height: 52px;
+  }
+
+  .right-side-bird-vehicle {
+    width: 68px;
+    height: 52px;
+    animation: smoothMacroFlightTrajectoryMobile 9.5s linear 3.6s infinite;
+  }
+
+  .bird-interaction-pivot {
+    animation: birdHoverPeckChoreography 9.5s ease-in-out 3.6s infinite;
+  }
+}
+
+@keyframes smoothMacroFlightTrajectoryMobile {
+  0% {
+    transform: translate3d(0px, 0px, 0) rotate(-6deg) scale(0.82);
+    animation-timing-function: ease-in-out;
+  }
+  14% {
+    transform: translate3d(0px, 0px, 0) rotate(-6deg) scale(0.82);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  28% {
+    transform: translate3d(8px, 88px, 0) rotate(-4deg) scale(0.82);
+    animation-timing-function: ease-in-out;
+  }
+  42% {
+    transform: translate3d(8px, 88px, 0) rotate(-4deg) scale(0.82);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  56% {
+    transform: translate3d(10px, 142px, 0) rotate(-5deg) scale(0.82);
+    animation-timing-function: ease-in-out;
+  }
+  70% {
+    transform: translate3d(10px, 142px, 0) rotate(-5deg) scale(0.82);
+    animation-timing-function: cubic-bezier(0.32, 0, 0.22, 1);
+  }
+  86% {
+    transform: translate3d(38px, 55px, 0) rotate(-18deg) scale(0.85);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0) rotate(-6deg) scale(0.82);
+  }
+}
