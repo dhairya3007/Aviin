@@ -167,8 +167,8 @@
 
 @media (max-width: 480px) {
   .coming-soon-heading {
-    font-size: clamp(1.35rem, 5.8vw, 1.8rem);
-    letter-spacing: 0.14em;
+    font-size: clamp(1.22rem, 5.1vw, 1.65rem);
+    letter-spacing: clamp(0.11em, 0.13em, 0.15em);
   }
 }
 
@@ -586,8 +586,8 @@
   will-change: transform;
   transform-origin: 54px 41px;
   transform: translate3d(0px, 0px, 0);
-  /* Delay = 4.3s — starts cleanly AFTER the 4.2s JS takeoff flight ends */
-  animation: smoothMacroFlightTrajectory 9.5s linear 4.3s infinite;
+  /* Delay = 5.5s — starts cleanly AFTER the 5.3s JS flight + hover rest */
+  animation: smoothMacroFlightTrajectory 9.5s linear 5.5s infinite;
 }
 
 /* Layer 2: Interaction Pivot (Biological Hover Bob & Delicately Poised Pecks) */
@@ -597,8 +597,8 @@
   transform-origin: 85px 42px;
   will-change: transform;
   transform: translate3d(0px, 0px, 0) rotate(0deg);
-  /* Delay = 4.3s — in sync with macro flight trajectory */
-  animation: birdHoverPeckChoreography 9.5s ease-in-out 4.3s infinite;
+  /* Delay = 5.5s — in sync with macro flight trajectory */
+  animation: birdHoverPeckChoreography 9.5s ease-in-out 5.5s infinite;
 }
 
 .flying-hummingbird-svg {
@@ -822,11 +822,11 @@
   .right-side-bird-vehicle {
     width: 86px;
     height: 65px;
-    animation: smoothMacroFlightTrajectoryMobile 9.5s linear 4.3s infinite;
+    animation: smoothMacroFlightTrajectoryMobile 9.5s linear 5.5s infinite;
   }
 
   .bird-interaction-pivot {
-    animation: birdHoverPeckChoreography 9.5s ease-in-out 4.3s infinite;
+    animation: birdHoverPeckChoreography 9.5s ease-in-out 5.5s infinite;
   }
 }
 
@@ -845,11 +845,11 @@
   .right-side-bird-vehicle {
     width: 68px;
     height: 52px;
-    animation: smoothMacroFlightTrajectoryMobile 9.5s linear 4.3s infinite;
+    animation: smoothMacroFlightTrajectoryMobile 9.5s linear 5.5s infinite;
   }
 
   .bird-interaction-pivot {
-    animation: birdHoverPeckChoreography 9.5s ease-in-out 4.3s infinite;
+    animation: birdHoverPeckChoreography 9.5s ease-in-out 5.5s infinite;
   }
 }
 

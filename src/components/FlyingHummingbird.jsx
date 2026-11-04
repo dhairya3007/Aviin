@@ -22,138 +22,122 @@ import React, { useLayoutEffect, useRef } from 'react';
  */
 export default function FlyingHummingbird() {
   const anchorRef = useRef(null);
-  const yArcRef   = useRef(null);
 
   useLayoutEffect(() => {
     const anchorEl = anchorRef.current;
-    const yArcEl   = yArcRef.current;
-    if (!anchorEl || !yArcEl) return;
+    if (!anchorEl) return;
+
+    // Viewport and responsive measurements
+    const winW = window.innerWidth;
+    const isMobile = winW <= 600;
+    const isTablet = winW > 600 && winW <= 900;
 
     const anchorRect = anchorEl.getBoundingClientRect();
     const anchorCX   = anchorRect.left + anchorRect.width  * 0.5;
     const anchorCY   = anchorRect.top  + anchorRect.height * 0.5;
 
-    // ── START POSITION: ABOVE the settled logo (top-right area) ─────────────
-    // We DO NOT start from the 'n' letter. Instead, we start from ABOVE
-    // the logo — specifically above the right side where the bird sits in
-    // the logo artwork. The preloader bird fades out on the logo; the flying
-    // bird appears cleanly above the logo and lifts from there.
+    // Logo stage measurements
     const logoEl   = document.getElementById('logoStage');
     const logoRect = logoEl ? logoEl.getBoundingClientRect() : anchorRect;
 
-    // X start: at the right-side of the logo (where the bird artwork is)
-    // anchor-relative: logo's right-third X center, relative to anchor center
-    const logoRightBirdX = logoRect.left + logoRect.width * 0.80; // ~80% across the logo = bird area
-    const startX = logoRightBirdX - anchorCX;
+    // ── RESPONSIVE START COORDINATES (Cleanly above logo top-right) ──
+    // Starts directly above the bird region of the logo (never on letterforms)
+    const startBirdX = logoRect.left + logoRect.width * 0.82;
+    const startX = startBirdX - anchorCX;
 
-    // Y start: 20px ABOVE the logo's top edge — bird appears cleanly above, never on the letterforms
-    const startY = (logoRect.top - 20) - anchorCY;
+    // Y start: 24px above logo top edge
+    const verticalClearance = isMobile ? 16 : 24;
+    const startY = (logoRect.top - verticalClearance) - anchorCY;
 
-    // Starting scale = 1.0 (the flying bird matches the logo bird's display size)
-    const ss = 1.0;
+    // Peak Y: Soft, unhurried aerodynamic climb
+    const climbHeight = isMobile ? 36 : 56;
+    const peakUpY = startY - climbHeight;
 
-    // ── RIGHT-HOOK ARC (matches hand-drawn path) ───────────────────────────
-    // 1. Bird is ABOVE logo, flies UP a bit more
-    // 2. Then swings RIGHT to peakX (outside content area)
-    // 3. Then sweeps DOWN and LEFT to anchor (beside COMING SOON)
-    //
-    // peakUpY: further above startY (which is already above the logo)
-    const peakUpY = startY - 70; // 70px higher = well clear of everything
+    // Peak X: Rightward sweep bounded responsively so it never clips offscreen
+    const maxSafeRight = (winW - 24) - (anchorCX + anchorRect.width * 0.5);
+    const naturalSwing = isMobile ? Math.max(startX + 30, 40) : Math.max(startX + 100, 130);
+    const peakX = Math.min(naturalSwing, Math.max(startX + 15, maxSafeRight));
 
-    // peakX: far right so the arc is wide and visible (matching yellow drawing)
-    const peakX = Math.max(startX + 160, 180);
+    // Dynamic initial scale matching the logo bird's settled size
+    const ss = isMobile ? 0.90 : isTablet ? 0.95 : 1.0;
 
-    const DURATION = 4400; // ms — matches App.jsx bird timer offset feel
+    // 5300ms: Calm, unhurried, luxury-paced flight (never rushed or fast)
+    const DURATION = 5300;
 
-    // ── LAYER A: X axis — right-hook path ─────────────────────────────────
-    //   0%:   At bird's starting X position (on the logo bird)
-    //   20%:  Still near start X — bird goes UP first, slight rightward drift
-    //   55%:  Peaks far to the RIGHT (outside content area)
-    //   85%:  Almost back at anchor X
-    //   100%: Exactly at anchor X (0)
-    const xAnim = anchorEl.animate(
-      [
-        {
-          offset: 0,
-          transform: `translateY(-50%) translateX(${startX.toFixed(1)}px) scale(${ss.toFixed(3)})`,
-          opacity: 1,
-          easing: 'cubic-bezier(0.42, 0, 0.8, 0.5)',   // gentle rightward start
-        },
-        {
-          offset: 0.20,
-          transform: `translateY(-50%) translateX(${(startX + 30).toFixed(1)}px) scale(1.0)`,
-          opacity: 1,
-          easing: 'cubic-bezier(0.3, 0, 0.6, 1)',       // accelerate right
-        },
-        {
-          offset: 0.55,
-          transform: `translateY(-50%) translateX(${peakX.toFixed(1)}px) scale(1.0)`,
-          opacity: 1,
-          easing: 'cubic-bezier(0.42, 0, 0.1, 1)',       // arc back left smoothly
-        },
-        {
-          offset: 0.85,
-          transform: `translateY(-50%) translateX(${(peakX * 0.04).toFixed(1)}px) scale(1.0)`,
-          opacity: 1,
-          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',       // cushion into anchor
-        },
-        {
-          offset: 1.0,
-          transform: 'translateY(-50%) translateX(0px) scale(1.0)',
-          opacity: 1,
-        },
-      ],
-      { duration: DURATION, easing: 'linear', fill: 'forwards' }
-    );
+    // ── UNIFIED GPU TRANSFORM TRAJECTORY (Zero jitter, silky bezier curves) ──
+    const flightKeyframes = [
+      // 0% — Starting above logo top-right, poised for takeoff
+      {
+        offset: 0,
+        transform: `translateY(-50%) translate3d(${startX.toFixed(1)}px, ${startY.toFixed(1)}px, 0) scale(${ss.toFixed(3)}) rotate(-4deg)`,
+        opacity: 1,
+        easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+      },
+      // 14% — Gentle aerodynamic lift climbing into open air
+      {
+        offset: 0.14,
+        transform: `translateY(-50%) translate3d(${(startX + (peakX - startX) * 0.22).toFixed(1)}px, ${peakUpY.toFixed(1)}px, 0) scale(${Math.min(ss + 0.04, 1.0).toFixed(3)}) rotate(-10deg)`,
+        opacity: 1,
+        easing: 'cubic-bezier(0.35, 0, 0.25, 1)',
+      },
+      // 36% — Wide, slow-motion crest at the top right of the fishhook arc
+      {
+        offset: 0.36,
+        transform: `translateY(-50%) translate3d(${peakX.toFixed(1)}px, ${(peakUpY + 14).toFixed(1)}px, 0) scale(1.0) rotate(0deg)`,
+        opacity: 1,
+        easing: 'cubic-bezier(0.38, 0, 0.22, 1)',
+      },
+      // 58% — Luxurious, unhurried gliding swoop down along the right side
+      {
+        offset: 0.58,
+        transform: `translateY(-50%) translate3d(${(peakX * 0.64).toFixed(1)}px, ${(startY * 0.42).toFixed(1)}px, 0) scale(1.0) rotate(7deg)`,
+        opacity: 1,
+        easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+      },
+      // 78% — Curving gracefully inward towards COMING SOON
+      {
+        offset: 0.78,
+        transform: `translateY(-50%) translate3d(${(peakX * 0.22).toFixed(1)}px, ${(startY * 0.10).toFixed(1)}px, 0) scale(1.0) rotate(2deg)`,
+        opacity: 1,
+        easing: 'cubic-bezier(0.2, 0.8, 0.25, 1)',
+      },
+      // 90% — Flare-brake and smooth deceleration
+      {
+        offset: 0.90,
+        transform: `translateY(-50%) translate3d(${(peakX * 0.05).toFixed(1)}px, -6px, 0) scale(1.0) rotate(-4deg)`,
+        opacity: 1,
+        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      // 96% — Micro-cushion into final station
+      {
+        offset: 0.96,
+        transform: `translateY(-50%) translate3d(2px, -1px, 0) scale(1.0) rotate(-1deg)`,
+        opacity: 1,
+        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      // 100% — Poised weightless hover at (0, 0) beside COMING SOON
+      {
+        offset: 1.0,
+        transform: 'translateY(-50%) translate3d(0px, 0px, 0) scale(1.0) rotate(0deg)',
+        opacity: 1,
+      },
+    ];
 
-    // ── LAYER B: Y axis + body tilt ───────────────────────────────────────
-    //   0–18%:  Strong upward lift (bird rises cleanly above the logo)
-    //   18–55%: Hover near apex while swinging right
-    //   55–88%: Long ease-out descent to COMING SOON heading
-    //   88–100%: Soft hover-brake cushion into landing
-    const yAnim = yArcEl.animate(
-      [
-        {
-          offset: 0,
-          transform: `translateY(${startY.toFixed(1)}px) rotate(0deg)`,
-          easing: 'cubic-bezier(0.3, 0, 0.5, 1)',         // lift sharply
-        },
-        {
-          offset: 0.18,
-          transform: `translateY(${peakUpY.toFixed(1)}px) rotate(-12deg)`,  // apex: well above logo
-          easing: 'cubic-bezier(0.0, 0.0, 0.5, 1.0)',
-        },
-        {
-          offset: 0.50,
-          transform: `translateY(${(peakUpY * 0.7).toFixed(1)}px) rotate(-6deg)`,  // still high, swinging right
-          easing: 'cubic-bezier(0.0, 0.0, 0.3, 1.0)',
-        },
-        {
-          offset: 0.78,
-          transform: `translateY(${(peakUpY * 0.1).toFixed(1)}px) rotate(5deg)`,  // descending
-          easing: 'cubic-bezier(0.25, 0, 0.1, 1)',
-        },
-        {
-          offset: 0.90,
-          transform: 'translateY(-8px) rotate(-1deg)',
-          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-        },
-        {
-          offset: 1.0,
-          transform: 'translateY(0px) rotate(0deg)',
-        },
-      ],
-      { duration: DURATION, easing: 'linear', fill: 'forwards' }
-    );
+    const flightAnim = anchorEl.animate(flightKeyframes, {
+      duration: DURATION,
+      fill: 'forwards',
+    });
 
-    return () => { xAnim.cancel(); yAnim.cancel(); };
+    return () => {
+      flightAnim.cancel();
+    };
   }, []);
 
   return (
     <div ref={anchorRef} className="right-side-bird-anchor" aria-hidden="true">
-      {/* Y-arc + tilt layer — JS animated */}
-      <div ref={yArcRef} className="bird-y-arc">
-        {/* Macro flight loop & peck choreography — CSS only (delay 4.3s) */}
+      {/* Smooth container wrapper */}
+      <div className="bird-y-arc">
+        {/* Macro flight loop & peck choreography — CSS only (delay 5.5s) */}
         <div className="right-side-bird-vehicle">
           <div className="bird-interaction-pivot">
             <svg
