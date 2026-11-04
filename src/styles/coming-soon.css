@@ -58,7 +58,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  z-index: 6;
+  z-index: 4;   /* ← LOWERED: bird (inside coming-soon-content z-9) must render ABOVE logo */
   will-change: transform;
   transform-origin: center center;
   transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -69,15 +69,24 @@
 }
 
 .stage-settled .brand-stage-anchor {
-  transform: translateY(0px) scale(0.72);
+  transform: translateY(0px) scale(0.86);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .stage-loading .brand-stage-anchor {
-    transform: translateY(clamp(75px, 12vh, 98px)) scale(0.92);
+    transform: translateY(clamp(80px, 13vh, 110px)) scale(0.96);
   }
   .stage-settled .brand-stage-anchor {
-    transform: translateY(0px) scale(0.62);
+    transform: translateY(0px) scale(0.78);
+  }
+}
+
+@media (max-width: 480px) {
+  .stage-loading .brand-stage-anchor {
+    transform: translateY(clamp(65px, 11vh, 90px)) scale(0.88);
+  }
+  .stage-settled .brand-stage-anchor {
+    transform: translateY(0px) scale(0.68);
   }
 }
 
@@ -100,7 +109,7 @@
    ========================================================================== */
 .coming-soon-content {
   position: relative;
-  z-index: 5;
+  z-index: 9;   /* ← ELEVATED above brand-stage-anchor(4): bird always renders in front of logo letters */
   width: 100%;
   max-width: 680px;
   display: flex;
@@ -536,23 +545,34 @@
 
 /* ==========================================================================
    RIGHT-SIDE HOVERING & PECKING HUMMINGBIRD (Strictly on the Right Side)
+   - Two-layer physics arc: X moves linearly, Y follows parabola = perfect arc
    - Anchored to 'left: 100%' of .heading-bird-stage
-   - Stays always 14px to the right of letter 'N' across ALL screen sizes
    - 0% overlap guaranteed, 100% responsive
-   - Single continuous, liquid-smooth 120fps GPU flight loop
    ========================================================================== */
+
+/* X-axis rail: JS animates translateX only (linear) */
 .right-side-bird-anchor {
   position: absolute;
   top: 50%;
   left: 100%;
-  transform: translateY(-50%);
-  margin-left: 14px;
-  width: 88px;
-  height: 68px;
+  /* NO transform here — JS owns 100% of the transform */
+  margin-left: 16px;
+  width: 108px;
+  height: 82px;
   pointer-events: none;
   z-index: 20;
   overflow: visible;
-  opacity: 0; /* JS Web Animations API handles the takeoff flight path dynamically */
+  opacity: 0;
+}
+
+/* Y-axis arc: JS animates translateY only (ease-in up → ease-out down) */
+.bird-y-arc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
 }
 
 /* Layer 1: Macro Flight Vehicle (Continuous, Smooth 120fps GPU Motion) */
@@ -560,23 +580,25 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 88px;
-  height: 68px;
+  width: 108px;
+  height: 82px;
   pointer-events: none;
   will-change: transform;
-  transform-origin: 44px 34px;
+  transform-origin: 54px 41px;
   transform: translate3d(0px, 0px, 0);
-  animation: smoothMacroFlightTrajectory 9.5s linear 3.6s infinite;
+  /* Delay = 4.3s — starts cleanly AFTER the 4.2s JS takeoff flight ends */
+  animation: smoothMacroFlightTrajectory 9.5s linear 4.3s infinite;
 }
 
 /* Layer 2: Interaction Pivot (Biological Hover Bob & Delicately Poised Pecks) */
 .bird-interaction-pivot {
   width: 100%;
   height: 100%;
-  transform-origin: 75px 35px;
+  transform-origin: 85px 42px;
   will-change: transform;
   transform: translate3d(0px, 0px, 0) rotate(0deg);
-  animation: birdHoverPeckChoreography 9.5s ease-in-out 3.6s infinite;
+  /* Delay = 4.3s — in sync with macro flight trajectory */
+  animation: birdHoverPeckChoreography 9.5s ease-in-out 4.3s infinite;
 }
 
 .flying-hummingbird-svg {
@@ -784,10 +806,38 @@
   }
 }
 
-/* Responsive adjustment for Mobile screens */
-@media (max-width: 600px) {
+/* Responsive adjustment for screens */
+@media (max-width: 768px) {
   .right-side-bird-anchor {
-    margin-left: 8px; /* Tighter 8px margin on mobile screens */
+    margin-left: 10px;
+    width: 86px;
+    height: 65px;
+  }
+
+  .bird-y-arc {
+    width: 86px;
+    height: 65px;
+  }
+
+  .right-side-bird-vehicle {
+    width: 86px;
+    height: 65px;
+    animation: smoothMacroFlightTrajectoryMobile 9.5s linear 4.3s infinite;
+  }
+
+  .bird-interaction-pivot {
+    animation: birdHoverPeckChoreography 9.5s ease-in-out 4.3s infinite;
+  }
+}
+
+@media (max-width: 480px) {
+  .right-side-bird-anchor {
+    margin-left: 7px;
+    width: 68px;
+    height: 52px;
+  }
+
+  .bird-y-arc {
     width: 68px;
     height: 52px;
   }
@@ -795,11 +845,11 @@
   .right-side-bird-vehicle {
     width: 68px;
     height: 52px;
-    animation: smoothMacroFlightTrajectoryMobile 9.5s linear 3.6s infinite;
+    animation: smoothMacroFlightTrajectoryMobile 9.5s linear 4.3s infinite;
   }
 
   .bird-interaction-pivot {
-    animation: birdHoverPeckChoreography 9.5s ease-in-out 3.6s infinite;
+    animation: birdHoverPeckChoreography 9.5s ease-in-out 4.3s infinite;
   }
 }
 

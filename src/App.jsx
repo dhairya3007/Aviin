@@ -54,7 +54,7 @@ export default function App() {
             </div>
 
             <p className="brand-subtitle">
-              We are preparing our inaugural collection. Enter your email to receive confidential preview access and your private salon invitation.
+              Custom printed T-shirts, oversized tees, hoodies, sweatshirts, polos and tote bags, made to order. Bulk orders for teams, events and businesses welcome.
             </p>
 
             {/* Form with WhatsApp Option above Email and Conditional Phone Field */}
