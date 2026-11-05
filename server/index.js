@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import { getSubscriberEmailHtml, getAdminEmailHtml } from './emailTemplates.js';
+import { AVIIN_LOGO_BASE64 } from './logoBase64.js';
 
 dotenv.config();
 
@@ -89,7 +90,7 @@ app.get('/api/health', (req, res) => {
  */
 app.post('/api/subscribe', async (req, res) => {
   try {
-    const { email, name, preference } = req.body;
+    const { email, phone, name, preference } = req.body;
 
     // Validate email
     if (!email || typeof email !== 'string') {
@@ -103,24 +104,21 @@ app.post('/api/subscribe', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Please enter an authentic, valid email address.' });
     }
 
-    // Generate exclusive serialized VIP Passcode
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-    const vipCode = `AVN-PRIVÉ-${randomSuffix}`;
     const timestamp = new Date().toUTCString();
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     // Store in session record
     const subscriberData = {
       email: cleanEmail,
+      phone: phone ? phone.trim() : null,
       name: name ? name.trim() : null,
       preference: preference || 'Inaugural Haute Couture & Sartorial Collection',
-      vipCode,
       timestamp,
       clientIp,
     };
     subscribersStore.push(subscriberData);
 
-    const fromName = process.env.FROM_NAME || 'Aviin Privé Atelier';
+    const fromName = process.env.FROM_NAME || 'Aviin Family';
     const fromEmail = process.env.FROM_EMAIL || 'concierge@aviin.com';
     const adminEmail = process.env.ADMIN_EMAIL || process.env.SMTP_USER || 'admin@aviin.com';
 
@@ -132,34 +130,51 @@ app.post('/api/subscribe', async (req, res) => {
     let subscriberPreviewUrl = null;
     let adminPreviewUrl = null;
 
+    const logoAttachment = {
+      filename: 'aviin-logo.png',
+      content: Buffer.from(AVIIN_LOGO_BASE64, 'base64'),
+      cid: 'aviinlogo',
+    };
+
     if (transporter) {
-      // 1. Dispatch confirmation email to the VIP Subscriber
-      const subscriberInfo = await transporter.sendMail({
-        from: `"${fromName}" <${fromEmail}>`,
-        to: cleanEmail,
-        subject: `Exclusive Invitation: Welcome to the Aviin Privé Circle [Pass: ${vipCode}]`,
-        html: subscriberHtml,
-      });
-
-      // 2. Dispatch notification email to the Admin
-      const adminInfo = await transporter.sendMail({
-        from: `"${fromName}" <${fromEmail}>`,
-        to: adminEmail,
-        subject: `[Aviin Alert] New Privé Circle Subscriber: ${cleanEmail} (${vipCode})`,
-        html: adminHtml,
-      });
-
       if (isTestAccount) {
+        // Test account generates preview links
+        const subscriberInfo = await transporter.sendMail({
+          from: `"${fromName}" <${fromEmail}>`,
+          to: cleanEmail,
+          subject: 'Welcome to Aviin Family',
+          html: subscriberHtml,
+          attachments: [logoAttachment],
+        });
+        const adminInfo = await transporter.sendMail({
+          from: `"${fromName}" <${fromEmail}>`,
+          to: adminEmail,
+          subject: `[Aviin Alert] New Member: ${cleanEmail}`,
+          html: adminHtml,
+        });
         subscriberPreviewUrl = nodemailer.getTestMessageUrl(subscriberInfo);
         adminPreviewUrl = nodemailer.getTestMessageUrl(adminInfo);
-
-        console.log('\n--- [AVIIN DUAL EMAIL NOTIFICATION (TEST MODE)] ---');
-        console.log(`Subscriber: ${cleanEmail} | VIP Code: ${vipCode}`);
-        console.log(`Subscriber Email Preview: ${subscriberPreviewUrl}`);
-        console.log(`Admin Alert Preview:      ${adminPreviewUrl}`);
-        console.log('--------------------------------------------------\n');
       } else {
-        console.log(`[Aviin SMTP] Dual emails successfully dispatched to subscriber (${cleanEmail}) and admin (${adminEmail})`);
+        // Asynchronous non-blocking parallel dispatch for real SMTP
+        Promise.all([
+          transporter.sendMail({
+            from: `"${fromName}" <${fromEmail}>`,
+            to: cleanEmail,
+            subject: 'Welcome to Aviin Family',
+            html: subscriberHtml,
+            attachments: [logoAttachment],
+          }),
+          transporter.sendMail({
+            from: `"${fromName}" <${fromEmail}>`,
+            to: adminEmail,
+            subject: `[Aviin Alert] New Member: ${cleanEmail}`,
+            html: adminHtml,
+          }),
+        ]).then(() => {
+          console.log(`[Aviin SMTP] Dual emails successfully dispatched to ${cleanEmail} and ${adminEmail}`);
+        }).catch(err => {
+          console.error('[Aviin SMTP Async Error]:', err.message);
+        });
       }
     } else {
       console.log(`[Aviin Simulated] Emails recorded for ${cleanEmail} and ${adminEmail}`);
@@ -167,10 +182,10 @@ app.post('/api/subscribe', async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Welcome to Aviin Privé. Your invitation and access pass have been dispatched.',
-      vipCode,
+      message: 'Welcome to the Aviin Family.',
       subscriber: {
         email: cleanEmail,
+        phone: subscriberData.phone,
         name: subscriberData.name,
         preference: subscriberData.preference,
       },
@@ -196,10 +211,9 @@ app.post('/api/subscribe', async (req, res) => {
 app.get('/api/preview-template', (req, res) => {
   const type = req.query.type || 'subscriber';
   const mockData = {
-    email: req.query.email || 'client.prive@aviin.com',
-    name: req.query.name || 'Countess Elena Vance',
-    preference: req.query.preference || 'Haute Couture Eveningwear & Silk Capes',
-    vipCode: 'AVN-PRIVÉ-7842',
+    email: req.query.email || 'client@aviin.com',
+    name: req.query.name || 'Valued Member',
+    preference: req.query.preference || 'Inaugural Collection',
     timestamp: new Date().toUTCString(),
     clientIp: req.ip,
   };
@@ -212,6 +226,6 @@ app.get('/api/preview-template', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✨ Aviin Luxury Atelier Server running on http://localhost:${PORT}`);
+  console.log(`✨ Aviin Family Server running on http://localhost:${PORT}`);
 });
 

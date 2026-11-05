@@ -12,9 +12,9 @@ export default function SubscribeForm({ onSubscriptionSuccess }) {
   const [errorField, setErrorField] = useState(null); // 'phone' | 'email' | null
   const [successData, setSuccessData] = useState(null);
 
-  const handleToggleWhatsApp = () => {
+  const handleToggleWhatsApp = (explicitVal) => {
     setWhatsappEnabled((prev) => {
-      const next = !prev;
+      const next = typeof explicitVal === 'boolean' ? explicitVal : !prev;
       if (!next && errorField === 'phone') {
         setErrorMessage('');
         setErrorField(null);
@@ -68,51 +68,79 @@ export default function SubscribeForm({ onSubscriptionSuccess }) {
     }
 
     setStatus('loading');
+    const startTime = Date.now();
 
-    try {
-      const response = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: cleanEmail,
-          phone: whatsappEnabled ? phone.trim() : null,
-        }),
-      });
+    const payload = {
+      email: cleanEmail,
+      phone: whatsappEnabled ? phone.trim() : null,
+    };
 
-      const data = await response.json();
+    // Endpoints fallback chain:
+    // 1. Explicit env var if specified (VITE_SUBSCRIBE_ENDPOINT)
+    // 2. /api/subscribe (Netlify serverless function & local dev server)
+    // 3. /Subscribe.ashx (Windows Server IIS same-port handler)
+    const candidateEndpoints = [];
+    if (import.meta.env.VITE_SUBSCRIBE_ENDPOINT) {
+      candidateEndpoints.push(import.meta.env.VITE_SUBSCRIBE_ENDPOINT);
+    }
+    candidateEndpoints.push('/api/subscribe', '/Subscribe.ashx');
 
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Unable to complete reservation at this time.');
+    let liveSuccess = false;
+    let liveData = null;
+
+    for (const ep of candidateEndpoints) {
+      try {
+        const response = await fetch(ep, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.success) {
+            liveData = data;
+            liveSuccess = true;
+            break;
+          }
+        }
+      } catch (_) {
+        // Try next candidate endpoint in chain
       }
+    }
 
+    // Ensure loading spinner runs for at least 650ms so the user sees a smooth loading transition
+    const elapsed = Date.now() - startTime;
+    if (elapsed < 650) {
+      await new Promise((resolve) => setTimeout(resolve, 650 - elapsed));
+    }
+
+    if (liveSuccess && liveData) {
       triggerLuxuryConfetti();
       setStatus('success');
-      setSuccessData(data);
+      setSuccessData(liveData);
       if (onSubscriptionSuccess) {
-        onSubscriptionSuccess(data);
+        onSubscriptionSuccess(liveData);
       }
-    } catch (err) {
-      console.warn('Backend API note:', err.message);
+      return;
+    }
 
-      // Client simulation fallback
-      const fallbackVip = `AVN-PRIVÉ-${Math.floor(1000 + Math.random() * 9000)}`;
-      triggerLuxuryConfetti();
+    // Client simulation fallback (only used if all live backends are unavailable/offline)
+    triggerLuxuryConfetti();
 
-      const fallbackData = {
-        success: true,
-        vipCode: fallbackVip,
-        isSimulated: true,
-        message: 'Welcome to Aviin Privé. Your VIP invitation has been staged.',
-        subscriber: { email: cleanEmail, phone: whatsappEnabled ? phone.trim() : null },
-      };
+    const fallbackData = {
+      success: true,
+      isSimulated: true,
+      message: 'Welcome to the Aviin Family.',
+      subscriber: payload,
+    };
 
-      setStatus('success');
-      setSuccessData(fallbackData);
-      if (onSubscriptionSuccess) {
-        onSubscriptionSuccess(fallbackData);
-      }
+    setStatus('success');
+    setSuccessData(fallbackData);
+    if (onSubscriptionSuccess) {
+      onSubscriptionSuccess(fallbackData);
     }
   };
 
@@ -156,21 +184,18 @@ export default function SubscribeForm({ onSubscriptionSuccess }) {
         <div className="minimal-success-icon">
           <Sparkles size={22} />
         </div>
-        <h3 className="minimal-success-title">You're on the Privé List</h3>
+        <h3 className="minimal-success-title">Welcome to the Aviin Family</h3>
         <p className="minimal-success-desc">
-          A confidential welcome note has been dispatched to{' '}
+          A welcome note has been dispatched to{' '}
           <strong style={{ color: 'var(--aviin-navy)' }}>{successData.subscriber?.email || email}</strong>.
-          {whatsappEnabled && phone && (
+          {(successData.subscriber?.phone || (whatsappEnabled && phone)) && (
             <>
-              {' '}WhatsApp private drop alerts will be sent to{' '}
-              <strong style={{ color: 'var(--aviin-navy)' }}>{phone}</strong>.
+              {' '}WhatsApp updates will be sent to{' '}
+              <strong style={{ color: 'var(--aviin-navy)' }}>{successData.subscriber?.phone || phone}</strong>.
             </>
           )}
-          {' '}You have secured priority access to the inaugural capsule.
+          {' '}You are now part of the Aviin Family.
         </p>
-        <div>
-          <span className="minimal-vip-badge">{successData.vipCode}</span>
-        </div>
         <button type="button" onClick={handleReset} className="minimal-success-reset">
           Subscribe Another Email
         </button>
@@ -183,8 +208,9 @@ export default function SubscribeForm({ onSubscriptionSuccess }) {
       {/* 1. WhatsApp Launch Notification Option (Positioned ABOVE the email field) */}
       <div
         className="whatsapp-optin-row"
-        onClick={handleToggleWhatsApp}
-        role="button"
+        onClick={() => handleToggleWhatsApp()}
+        role="switch"
+        aria-checked={whatsappEnabled}
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -203,12 +229,11 @@ export default function SubscribeForm({ onSubscriptionSuccess }) {
             type="checkbox"
             id="waToggle"
             checked={whatsappEnabled}
-            onChange={(e) => {
-              e.stopPropagation();
-              handleToggleWhatsApp();
-            }}
+            onChange={(e) => handleToggleWhatsApp(e.target.checked)}
             className="wa-toggle-switch"
             aria-label="Notify me on WhatsApp for private drops"
+            tabIndex={-1}
+            style={{ pointerEvents: 'none' }}
           />
         </div>
       </div>

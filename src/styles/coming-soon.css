@@ -216,7 +216,8 @@
   margin-bottom: 0.75rem;
   cursor: pointer;
   user-select: none;
-  transition: all 0.25s ease;
+  touch-action: manipulation;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .whatsapp-optin-row:hover {
@@ -259,7 +260,9 @@
   position: relative;
   cursor: pointer;
   outline: none;
-  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  pointer-events: none;
+  touch-action: manipulation;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
   flex-shrink: 0;
 }
 
@@ -273,7 +276,8 @@
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 .wa-toggle-switch:checked {
@@ -293,11 +297,12 @@
   opacity: 0;
   overflow: hidden;
   margin-bottom: 0;
-  transition: max-height 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease, margin-bottom 0.32s ease;
+  will-change: max-height, opacity, margin-bottom;
+  transition: max-height 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, margin-bottom 0.2s ease;
 }
 
 .phone-drawer.open {
-  max-height: 70px;
+  max-height: 56px;
   opacity: 1;
   margin-bottom: 0.75rem;
 }
@@ -441,6 +446,27 @@
 
 .single-submit-btn[data-pressed] {
   opacity: 0.9;
+}
+
+.single-submit-btn[data-disabled],
+.single-submit-btn:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 0.85s linear infinite !important;
+  display: inline-block;
+  transform-origin: center;
 }
 
 .single-submit-btn[data-disabled] {
