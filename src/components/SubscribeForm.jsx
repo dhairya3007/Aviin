@@ -244,6 +244,7 @@ export default function SubscribeForm({ onSubscriptionSuccess }) {
           <Button
             type="submit"
             isDisabled={status === 'loading'}
+            id="notifyMeBtn"
             className="react-aria-Button single-submit-btn"
           >
             {status === 'loading' ? (
