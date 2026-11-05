@@ -77,13 +77,14 @@ export default function SubscribeForm({ onSubscriptionSuccess }) {
 
     // Endpoints fallback chain:
     // 1. Explicit env var if specified (VITE_SUBSCRIBE_ENDPOINT)
-    // 2. /api/subscribe (Netlify serverless function & local dev server)
-    // 3. /Subscribe.ashx (Windows Server IIS same-port handler)
+    // 2. /.netlify/functions/subscribe (Direct Netlify serverless function)
+    // 3. /api/subscribe (Redirected endpoint & local dev server)
+    // 4. /Subscribe.ashx (Windows Server IIS same-port handler)
     const candidateEndpoints = [];
     if (import.meta.env.VITE_SUBSCRIBE_ENDPOINT) {
       candidateEndpoints.push(import.meta.env.VITE_SUBSCRIBE_ENDPOINT);
     }
-    candidateEndpoints.push('/api/subscribe', '/Subscribe.ashx');
+    candidateEndpoints.push('/.netlify/functions/subscribe', '/api/subscribe', '/Subscribe.ashx');
 
     let liveSuccess = false;
     let liveData = null;

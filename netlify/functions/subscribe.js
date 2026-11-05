@@ -34,19 +34,27 @@ export async function handler(event, context) {
     }
 
     const host = process.env.SMTP_HOST || 'smtp.gmail.com';
-    const port = Number(process.env.SMTP_PORT) || 587;
+    const port = Number(process.env.SMTP_PORT) || 465;
     const user = process.env.SMTP_USER || 'dhairyapatel3007@gmail.com';
-    const pass = process.env.SMTP_PASS || 'qammmufmjiuffbvj';
+    const rawPass = process.env.SMTP_PASS || 'qammmufmjiuffbvj';
+    const pass = rawPass.replace(/\s+/g, '');
     const fromName = process.env.FROM_NAME || 'Aviin Family';
     const fromEmail = process.env.FROM_EMAIL || user;
     const adminEmail = process.env.ADMIN_EMAIL || 'dhairya3020@gmail.com';
 
-    const transporter = nodemailer.createTransport({
-      host,
-      port,
-      secure: port === 465,
-      auth: { user, pass },
-    });
+    // In serverless / AWS Lambda (Netlify), port 587 STARTTLS is frequently throttled or blocked.
+    // 'service: gmail' uses port 465 SSL directly which connects instantly without STARTTLS delays.
+    const transporter = (host.includes('gmail') || user.includes('@gmail.com'))
+      ? nodemailer.createTransport({
+          service: 'gmail',
+          auth: { user, pass },
+        })
+      : nodemailer.createTransport({
+          host,
+          port,
+          secure: port === 465,
+          auth: { user, pass },
+        });
 
     const whatsappNotice = phone
       ? `<div style="margin: 20px 0 0; padding: 12px 18px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 13.5px; color: #166534; text-align: center;">
