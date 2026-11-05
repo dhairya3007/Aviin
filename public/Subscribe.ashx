@@ -111,8 +111,7 @@ public class Subscribe : IHttpHandler
                 ? ""
                 : "<div style='margin:20px 0 0; padding:12px 18px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; font-size:13.5px; color:#166534; text-align:center;'>WhatsApp updates enabled for: <strong style='color:#15803d;'>" + HttpUtility.HtmlEncode(phone) + "</strong></div>";
 
-            string logoPath = HttpContext.Current.Server.MapPath("~/logo.png");
-            if (!File.Exists(logoPath)) logoPath = HttpContext.Current.Server.MapPath("~/assets/logo.png");
+            string logoUrl = "https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png";
 
             mail.Body = @"
 <!DOCTYPE html>
@@ -127,7 +126,7 @@ public class Subscribe : IHttpHandler
     <table width='100%' cellpadding='0' cellspacing='0' style='max-width:560px; margin:0 auto; background-color:#ffffff; border:1px solid rgba(197,160,89,0.35); border-radius:16px; overflow:hidden; box-shadow:0 10px 35px rgba(35,31,54,0.06);'>
       <tr>
         <td style='padding:38px 30px 24px; text-align:center; background-color:#ffffff; border-bottom:1px solid #f0ecdf;'>
-          <img src='cid:aviinlogo' alt='AVIIN' width='180' style='display:block; margin:0 auto; width:180px; max-width:180px; height:auto;' />
+          <img src='" + logoUrl + @"' alt='AVIIN' width='180' style='display:block; margin:0 auto; width:180px; max-width:180px; height:auto;' />
           <div style='font-size:10px; letter-spacing:0.28em; color:#8e899b; text-transform:uppercase; margin-top:10px; font-weight:500;'>Pure Luxury Clothing</div>
         </td>
       </tr>
@@ -158,13 +157,6 @@ public class Subscribe : IHttpHandler
   </center>
 </body>
 </html>";
-
-            if (File.Exists(logoPath))
-            {
-                var att = new Attachment(logoPath);
-                att.ContentId = "aviinlogo";
-                mail.Attachments.Add(att);
-            }
 
             using (var smtp = new SmtpClient(SmtpHost, SmtpPort))
             {

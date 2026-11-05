@@ -1,9 +1,9 @@
 /**
  * Aviin Pure Luxury Clothing — Clean Email Templates for Aviin Family
  */
-import { AVIIN_LOGO_BASE64 } from './logoBase64.js';
+const DEFAULT_LOGO_URL = 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png';
 
-export function getSubscriberEmailHtml({ email, phone }) {
+export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_URL }) {
   const whatsappNotice = phone
     ? `<div style="margin: 20px 0 0; padding: 12px 18px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 13.5px; color: #166534; text-align: center;">
         WhatsApp drop notifications enabled for: <strong style="color: #15803d;">${phone}</strong>
@@ -30,7 +30,7 @@ export function getSubscriberEmailHtml({ email, phone }) {
       <!-- Logo Header -->
       <tr>
         <td style="padding: 38px 30px 24px; text-align: center; background-color: #ffffff; border-bottom: 1px solid #f0ecdf;">
-          <img src="cid:aviinlogo" alt="AVIIN" width="180" style="display: block; margin: 0 auto; width: 180px; max-width: 180px; height: auto;" />
+          <img src="${logoUrl}" alt="AVIIN" width="180" style="display: block; margin: 0 auto; width: 180px; max-width: 180px; height: auto;" />
           <div style="font-size: 10px; letter-spacing: 0.28em; color: #8e899b; text-transform: uppercase; margin-top: 10px; font-weight: 500;">
             Pure Luxury Clothing
           </div>

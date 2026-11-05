@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
-import { AVIIN_LOGO_BASE64 } from './logoBase64.js';
+
+const DEFAULT_LOGO_URL = 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png';
 
 export async function handler(event, context) {
   if (event.httpMethod === 'OPTIONS') {
@@ -66,12 +67,6 @@ export async function handler(event, context) {
       ? `<span style="color: #15803d; font-weight: 600;">${phone}</span>`
       : '<span style="color: #888;">Not opted in</span>';
 
-    const logoAttachment = {
-      filename: 'aviin-logo.png',
-      content: Buffer.from(AVIIN_LOGO_BASE64, 'base64'),
-      cid: 'aviinlogo',
-    };
-
     // Parallel asynchronous email dispatch
     await Promise.all([
       // 1. Subscriber Email
@@ -79,7 +74,6 @@ export async function handler(event, context) {
         from: `"${fromName}" <${fromEmail}>`,
         to: email,
         subject: 'Welcome to Aviin Family',
-        attachments: [logoAttachment],
         html: `
           <!DOCTYPE html>
           <html lang="en">
@@ -93,7 +87,7 @@ export async function handler(event, context) {
               <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px; margin: 0 auto; background-color: #ffffff; border: 1px solid rgba(197, 160, 89, 0.35); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 35px rgba(35, 31, 54, 0.06);">
                 <tr>
                   <td style="padding: 38px 30px 24px; text-align: center; background-color: #ffffff; border-bottom: 1px solid #f0ecdf;">
-                    <img src="cid:aviinlogo" alt="AVIIN" width="180" style="display: block; margin: 0 auto; width: 180px; max-width: 180px; height: auto;" />
+                    <img src="${DEFAULT_LOGO_URL}" alt="AVIIN" width="180" style="display: block; margin: 0 auto; width: 180px; max-width: 180px; height: auto;" />
                     <div style="font-size: 10px; letter-spacing: 0.28em; color: #8e899b; text-transform: uppercase; margin-top: 10px; font-weight: 500;">
                       Pure Luxury Clothing
                     </div>

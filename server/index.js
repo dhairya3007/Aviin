@@ -3,7 +3,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import { getSubscriberEmailHtml, getAdminEmailHtml } from './emailTemplates.js';
-import { AVIIN_LOGO_BASE64 } from './logoBase64.js';
 
 dotenv.config();
 
@@ -130,12 +129,6 @@ app.post('/api/subscribe', async (req, res) => {
     let subscriberPreviewUrl = null;
     let adminPreviewUrl = null;
 
-    const logoAttachment = {
-      filename: 'aviin-logo.png',
-      content: Buffer.from(AVIIN_LOGO_BASE64, 'base64'),
-      cid: 'aviinlogo',
-    };
-
     if (transporter) {
       if (isTestAccount) {
         // Test account generates preview links
@@ -144,7 +137,6 @@ app.post('/api/subscribe', async (req, res) => {
           to: cleanEmail,
           subject: 'Welcome to Aviin Family',
           html: subscriberHtml,
-          attachments: [logoAttachment],
         });
         const adminInfo = await transporter.sendMail({
           from: `"${fromName}" <${fromEmail}>`,
@@ -162,7 +154,6 @@ app.post('/api/subscribe', async (req, res) => {
             to: cleanEmail,
             subject: 'Welcome to Aviin Family',
             html: subscriberHtml,
-            attachments: [logoAttachment],
           }),
           transporter.sendMail({
             from: `"${fromName}" <${fromEmail}>`,
