@@ -203,6 +203,7 @@ app.get('/api/preview-template', (req, res) => {
   const type = req.query.type || 'subscriber';
   const mockData = {
     email: req.query.email || 'client@aviin.com',
+    phone: req.query.phone || null,
     name: req.query.name || 'Valued Member',
     preference: req.query.preference || 'Inaugural Collection',
     timestamp: new Date().toUTCString(),
