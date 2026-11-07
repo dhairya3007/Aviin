@@ -1,7 +1,7 @@
 /**
  * Aviin Pure Luxury Clothing — Clean Email Templates for Aviin Family
  */
-const DEFAULT_LOGO_URL = 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png';
+const DEFAULT_LOGO_URL = process.env.LOGO_URL || 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png';
 
 export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_URL }) {
   const cleanPhone = phone && String(phone).trim() && String(phone).trim() !== 'null' && String(phone).trim() !== 'undefined'
@@ -26,9 +26,9 @@ export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_UR
   <center>
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e5dfd3; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,0.05); text-align: left;">
       
-      <!-- Aviin Header Part (#fcfbf9 luxury canvas) -->
+      <!-- Aviin Header Part (White background) -->
       <tr>
-        <td style="padding: 30px 24px 22px; background-color: #fcfbf9; border-bottom: 1px solid #f0ece1; text-align: center;">
+        <td style="padding: 30px 24px 22px; background-color: #ffffff; border-bottom: 1px solid #f0ece1; text-align: center;">
           <img src="${logoUrl}" alt="AVIIN" width="165" style="display: block; margin: 0 auto; width: 165px; max-width: 165px; height: auto;" />
         </td>
       </tr>
@@ -91,9 +91,9 @@ export function getAdminEmailHtml({ email, phone, timestamp, logoUrl = DEFAULT_L
   <center>
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e5dfd3; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,0.05); text-align: left;">
       
-      <!-- Aviin Header Part (#fcfbf9 luxury canvas) -->
+      <!-- Aviin Header Part (White background) -->
       <tr>
-        <td style="padding: 30px 24px 22px; background-color: #fcfbf9; border-bottom: 1px solid #f0ece1; text-align: center;">
+        <td style="padding: 30px 24px 22px; background-color: #ffffff; border-bottom: 1px solid #f0ece1; text-align: center;">
           <img src="${logoUrl}" alt="AVIIN" width="165" style="display: block; margin: 0 auto; width: 165px; max-width: 165px; height: auto;" />
         </td>
       </tr>

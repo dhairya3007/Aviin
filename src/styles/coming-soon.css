@@ -237,8 +237,8 @@
 .brand-subtitle {
   font-family: var(--font-sans);
   font-size: clamp(13px, 1.9vw, 14.5px);
-  font-weight: 300;
-  color: rgba(45, 40, 62, 0.70);
+  font-weight: 600;
+  color: var(--aviin-navy, #2d283e);
   line-height: 1.68;
   max-width: 480px;
   margin-bottom: 1.4rem;
