@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { ArrowRight, Loader2, Sparkles } from 'lucide-react';
+import { ArrowRight, Loader2, Check } from 'lucide-react';
 import { Form, TextField, Input, Button } from 'react-aria-components';
 
 export default function SubscribeForm({ onSubscriptionSuccess }) {
@@ -183,7 +183,7 @@ export default function SubscribeForm({ onSubscriptionSuccess }) {
     return (
       <div className="minimal-success-card">
         <div className="minimal-success-icon">
-          <Sparkles size={22} />
+          <Check size={20} strokeWidth={2.2} />
         </div>
         <h3 className="minimal-success-title">Welcome to the Aviin Family</h3>
         <p className="minimal-success-desc">

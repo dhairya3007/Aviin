@@ -26,14 +26,16 @@ export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_UR
   <center>
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e5dfd3; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,0.05); text-align: left;">
       
+      <!-- Aviin Header Part (#fcfbf9 luxury canvas) -->
+      <tr>
+        <td style="padding: 30px 24px 22px; background-color: #fcfbf9; border-bottom: 1px solid #f0ece1; text-align: center;">
+          <img src="${logoUrl}" alt="AVIIN" width="165" style="display: block; margin: 0 auto; width: 165px; max-width: 165px; height: auto;" />
+        </td>
+      </tr>
+
       <!-- Content -->
       <tr>
-        <td style="padding: 34px 30px 28px;">
-          <!-- Aviin Logo Header -->
-          <div style="text-align: center; margin-bottom: 24px;">
-            <img src="${logoUrl}" alt="AVIIN" width="165" style="display: block; margin: 0 auto; width: 165px; max-width: 165px; height: auto;" />
-          </div>
-
+        <td style="padding: 28px 30px 28px;">
           <p style="margin: 0 0 24px; font-size: 14.5px; line-height: 1.65; color: #5a5568; text-align: center;">
             Thank you for subscribing. You are now part of the Aviin Family and will receive our priority collection announcements.
           </p>
@@ -89,14 +91,16 @@ export function getAdminEmailHtml({ email, phone, timestamp, logoUrl = DEFAULT_L
   <center>
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e5dfd3; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,0.05); text-align: left;">
       
+      <!-- Aviin Header Part (#fcfbf9 luxury canvas) -->
+      <tr>
+        <td style="padding: 30px 24px 22px; background-color: #fcfbf9; border-bottom: 1px solid #f0ece1; text-align: center;">
+          <img src="${logoUrl}" alt="AVIIN" width="165" style="display: block; margin: 0 auto; width: 165px; max-width: 165px; height: auto;" />
+        </td>
+      </tr>
+
       <!-- Content -->
       <tr>
-        <td style="padding: 34px 30px 28px;">
-          <!-- Aviin Logo Header -->
-          <div style="text-align: center; margin-bottom: 24px;">
-            <img src="${logoUrl}" alt="AVIIN" width="165" style="display: block; margin: 0 auto; width: 165px; max-width: 165px; height: auto;" />
-          </div>
-
+        <td style="padding: 28px 30px 28px;">
           <table width="100%" cellpadding="0" cellspacing="0" style="font-size: 14px;">
             <tr>
               <td style="padding: 12px 0; border-bottom: 1px solid #f0ece1; color: #767285; width: 38%;">Subscriber Email</td>

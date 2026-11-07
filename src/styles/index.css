@@ -5,11 +5,8 @@
 /* 1. Global Haute Couture Theme, Reset, Variables & Scrollbars */
 @import './theme.css';
 
-/* 2. Aviin Vector Preloader & Spiral & Drop Keyframe Animations */
-@import './preloader.css';
-
-/* 3. React Aria Components Accessible Luxury Form Styling */
+/* 2. React Aria Components Accessible Luxury Form Styling */
 @import './react-aria.css';
 
-/* 4. Minimalist Coming Soon & Single Email Subscribe Form */
+/* 3. Minimalist Coming Soon, Preloader Stage & Subscribe Form */
 @import './coming-soon.css';

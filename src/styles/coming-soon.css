@@ -52,56 +52,117 @@
   max-width: 680px;
 }
 
-/* Preloader Logo Stage Anchor (Silky GPU Transform Ascent — Zero Box Model Shifts) */
+/* ==========================================================================
+   AVIIN PRELOADER & RESPONSIVE LOGO STAGE
+   ========================================================================== */
+.aviin-preloader-stage {
+  position: relative;
+  width: min(80vw, 480px);
+  aspect-ratio: 1000 / 467;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.aviin-logo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Text reveal runs on the logo WITHOUT the bird, left to right */
+.aviin-logo-writing {
+  clip-path: inset(0 100% 0 0);
+  animation: preloaderWrite 1.9s cubic-bezier(0.65, 0, 0.35, 1) 0.25s forwards;
+}
+
+@keyframes preloaderWrite {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Flying Hummingbird Actor */
+#flyingHummingbirdActor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  aspect-ratio: 387 / 321;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.bird-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.bird-wing-layer {
+  transform-origin: 45.5% 43%; /* shoulder of the wing */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aviin-logo-writing {
+    clip-path: none;
+    animation: preloaderFade 0.6s ease 0.1s forwards;
+  }
+  @keyframes preloaderFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  #flyingHummingbirdActor {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   SILKY RESPONSIVE ASCENT INTO HEADER POSITION
+   ========================================================================== */
 .brand-stage-anchor {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  z-index: 4;   /* ← LOWERED: bird (inside coming-soon-content z-9) must render ABOVE logo */
+  z-index: 10;
+  width: 100%;
+  margin-bottom: 0.5rem;
   will-change: transform;
   transform-origin: center center;
-  transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 1.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stage-loading .brand-stage-anchor {
-  transform: translateY(clamp(95px, 14vh, 128px)) scale(1);
+  transform: translateY(clamp(95px, 15vh, 140px));
 }
 
 .stage-settled .brand-stage-anchor {
-  transform: translateY(0px) scale(1.0);
+  transform: translateY(0px);
 }
 
 @media (max-width: 768px) {
   .stage-loading .brand-stage-anchor {
-    transform: translateY(clamp(80px, 13vh, 110px)) scale(0.96);
+    transform: translateY(clamp(80px, 13vh, 115px));
   }
   .stage-settled .brand-stage-anchor {
-    transform: translateY(0px) scale(0.92);
+    transform: translateY(0px);
   }
 }
 
 @media (max-width: 480px) {
   .stage-loading .brand-stage-anchor {
-    transform: translateY(clamp(65px, 11vh, 90px)) scale(0.88);
+    transform: translateY(clamp(65px, 11vh, 95px));
   }
   .stage-settled .brand-stage-anchor {
-    transform: translateY(0px) scale(0.84);
+    transform: translateY(0px);
   }
-}
-
-/* Seamless Handover: Perched Preloader Bird gracefully dissolves when takeoff starts */
-.perch-hidden {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* Soft, Luminous Luxury Ink for the Wordmark */
-.logo-ink-path {
-  fill: #2e283e;
-  fill: url(#luxuryInkGrad);
-  transition: fill 0.4s ease;
 }
 
 /* ==========================================================================
