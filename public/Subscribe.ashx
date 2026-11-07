@@ -162,10 +162,17 @@ public class Subscribe : IHttpHandler
         </td>
       </tr>
 
-      <!-- Footer -->
+      <!-- Footer with Social Links -->
       <tr>
-        <td style='padding:14px 28px; background-color:#faf9f6; border-top:1px solid #f0ece1; font-size:11px; color:#8e899b; text-align:center;'>
-          © " + DateTime.Now.Year + @" Aviin Family. All rights reserved.
+        <td style='padding:20px 24px 18px; background-color:#faf9f6; border-top:1px solid #f0ece1; text-align:center;'>
+          <div style='margin-bottom:12px;'>
+            <a href='https://www.instagram.com/aviin.uk' target='_blank' style='display:inline-block; margin:3px 4px; padding:6px 14px; background-color:#ffffff; border:1px solid #e2ddd3; border-radius:16px; font-size:11.5px; font-weight:600; color:#231f36; text-decoration:none;'>Instagram</a>
+            <a href='https://wa.me/message/73MSF3SNFN7LB1' target='_blank' style='display:inline-block; margin:3px 4px; padding:6px 14px; background-color:#ffffff; border:1px solid #e2ddd3; border-radius:16px; font-size:11.5px; font-weight:600; color:#15803d; text-decoration:none;'>WhatsApp</a>
+            <a href='https://www.facebook.com/share/1DxpdGAXCo/?mibextid=wwXIfr' target='_blank' style='display:inline-block; margin:3px 4px; padding:6px 14px; background-color:#ffffff; border:1px solid #e2ddd3; border-radius:16px; font-size:11.5px; font-weight:600; color:#231f36; text-decoration:none;'>Facebook</a>
+          </div>
+          <p style='margin:0; font-size:11px; color:#8e899b; line-height:1.5;'>
+            © " + DateTime.Now.Year + @" Aviin Family. All rights reserved.
+          </p>
         </td>
       </tr>
 
@@ -247,9 +254,17 @@ public class Subscribe : IHttpHandler
           </table>
         </td>
       </tr>
+      <!-- Footer with Social Links -->
       <tr>
-        <td style='padding:14px 28px; background-color:#faf9f6; border-top:1px solid #f0ece1; font-size:11px; color:#8e899b; text-align:center;'>
-          Automated notification from Aviin Family Launch System.
+        <td style='padding:20px 24px 18px; background-color:#faf9f6; border-top:1px solid #f0ece1; text-align:center;'>
+          <div style='margin-bottom:12px;'>
+            <a href='https://www.instagram.com/aviin.uk' target='_blank' style='display:inline-block; margin:3px 4px; padding:6px 14px; background-color:#ffffff; border:1px solid #e2ddd3; border-radius:16px; font-size:11.5px; font-weight:600; color:#231f36; text-decoration:none;'>Instagram</a>
+            <a href='https://wa.me/message/73MSF3SNFN7LB1' target='_blank' style='display:inline-block; margin:3px 4px; padding:6px 14px; background-color:#ffffff; border:1px solid #e2ddd3; border-radius:16px; font-size:11.5px; font-weight:600; color:#15803d; text-decoration:none;'>WhatsApp</a>
+            <a href='https://www.facebook.com/share/1DxpdGAXCo/?mibextid=wwXIfr' target='_blank' style='display:inline-block; margin:3px 4px; padding:6px 14px; background-color:#ffffff; border:1px solid #e2ddd3; border-radius:16px; font-size:11.5px; font-weight:600; color:#231f36; text-decoration:none;'>Facebook</a>
+          </div>
+          <p style='margin:0; font-size:11px; color:#8e899b; line-height:1.5;'>
+            Automated notification from Aviin Family Launch System.
+          </p>
         </td>
       </tr>
     </table>

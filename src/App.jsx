@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AviinPreloaderLogo from './components/AviinPreloaderLogo';
 import SubscribeForm from './components/SubscribeForm';
+import Footer from './components/Footer';
 
 export default function App() {
   const [isSettled, setIsSettled] = useState(false);
@@ -31,6 +32,9 @@ export default function App() {
 
             {/* Form with WhatsApp Option above Email and Conditional Phone Field */}
             <SubscribeForm />
+
+            {/* Haute Couture Footer with Social Channels */}
+            <Footer />
           </div>
         </div>
       </main>

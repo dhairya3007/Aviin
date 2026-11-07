@@ -15,6 +15,12 @@ export const DEFAULT_LOGO_URL = process.env.LOGO_URL || (
     : 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6.png'
 );
 
+const SOCIAL_LINKS = {
+  instagram: 'https://www.instagram.com/aviin.uk',
+  whatsapp: 'https://wa.me/message/73MSF3SNFN7LB1',
+  facebook: 'https://www.facebook.com/share/1DxpdGAXCo/?mibextid=wwXIfr',
+};
+
 export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_URL }) {
   const cleanPhone = phone && String(phone).trim() && String(phone).trim() !== 'null' && String(phone).trim() !== 'undefined'
     ? String(phone).trim()
@@ -88,10 +94,17 @@ export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_UR
         </td>
       </tr>
 
-      <!-- Footer -->
+      <!-- Footer with Social Links -->
       <tr>
-        <td style="padding: 14px 28px; background-color: #faf9f6; border-top: 1px solid #f0ece1; font-size: 11px; color: #8e899b; text-align: center;">
-          © ${new Date().getFullYear()} Aviin Family. All rights reserved.
+        <td style="padding: 20px 24px 18px; background-color: #faf9f6; border-top: 1px solid #f0ece1; text-align: center;">
+          <div style="margin-bottom: 12px;">
+            <a href="${SOCIAL_LINKS.instagram}" target="_blank" style="display: inline-block; margin: 3px 4px; padding: 6px 14px; background-color: #ffffff; border: 1px solid #e2ddd3; border-radius: 16px; font-size: 11.5px; font-weight: 600; color: #231f36; text-decoration: none;">Instagram</a>
+            <a href="${SOCIAL_LINKS.whatsapp}" target="_blank" style="display: inline-block; margin: 3px 4px; padding: 6px 14px; background-color: #ffffff; border: 1px solid #e2ddd3; border-radius: 16px; font-size: 11.5px; font-weight: 600; color: #15803d; text-decoration: none;">WhatsApp</a>
+            <a href="${SOCIAL_LINKS.facebook}" target="_blank" style="display: inline-block; margin: 3px 4px; padding: 6px 14px; background-color: #ffffff; border: 1px solid #e2ddd3; border-radius: 16px; font-size: 11.5px; font-weight: 600; color: #231f36; text-decoration: none;">Facebook</a>
+          </div>
+          <p style="margin: 0; font-size: 11px; color: #8e899b; line-height: 1.5;">
+            © ${new Date().getFullYear()} Aviin Family. All rights reserved.
+          </p>
         </td>
       </tr>
 
@@ -171,10 +184,17 @@ export function getAdminEmailHtml({ email, phone, timestamp, logoUrl = DEFAULT_L
         </td>
       </tr>
 
-      <!-- Footer -->
+      <!-- Footer with Social Links -->
       <tr>
-        <td style="padding: 14px 28px; background-color: #faf9f6; border-top: 1px solid #f0ece1; font-size: 11px; color: #8e899b; text-align: center;">
-          Automated notification from Aviin Family Launch System.
+        <td style="padding: 20px 24px 18px; background-color: #faf9f6; border-top: 1px solid #f0ece1; text-align: center;">
+          <div style="margin-bottom: 12px;">
+            <a href="${SOCIAL_LINKS.instagram}" target="_blank" style="display: inline-block; margin: 3px 4px; padding: 6px 14px; background-color: #ffffff; border: 1px solid #e2ddd3; border-radius: 16px; font-size: 11.5px; font-weight: 600; color: #231f36; text-decoration: none;">Instagram</a>
+            <a href="${SOCIAL_LINKS.whatsapp}" target="_blank" style="display: inline-block; margin: 3px 4px; padding: 6px 14px; background-color: #ffffff; border: 1px solid #e2ddd3; border-radius: 16px; font-size: 11.5px; font-weight: 600; color: #15803d; text-decoration: none;">WhatsApp</a>
+            <a href="${SOCIAL_LINKS.facebook}" target="_blank" style="display: inline-block; margin: 3px 4px; padding: 6px 14px; background-color: #ffffff; border: 1px solid #e2ddd3; border-radius: 16px; font-size: 11.5px; font-weight: 600; color: #231f36; text-decoration: none;">Facebook</a>
+          </div>
+          <p style="margin: 0; font-size: 11px; color: #8e899b; line-height: 1.5;">
+            Automated notification from Aviin Family Launch System.
+          </p>
         </td>
       </tr>
 
