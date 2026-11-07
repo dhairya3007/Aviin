@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-const DEFAULT_LOGO_URL = process.env.LOGO_URL || 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png';
+const DEFAULT_LOGO_URL = process.env.LOGO_URL || 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6.png';
 
 export async function handler(event, context) {
   if (event.httpMethod === 'OPTIONS') {

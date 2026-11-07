@@ -1,7 +1,7 @@
 /**
  * Aviin Pure Luxury Clothing — Clean Email Templates for Aviin Family
  */
-const DEFAULT_LOGO_URL = process.env.LOGO_URL || 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png';
+const DEFAULT_LOGO_URL = process.env.LOGO_URL || 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6.png';
 
 export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_URL }) {
   const cleanPhone = phone && String(phone).trim() && String(phone).trim() !== 'null' && String(phone).trim() !== 'undefined'

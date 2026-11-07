@@ -111,7 +111,7 @@ public class Subscribe : IHttpHandler
                 ? ""
                 : "<tr><td style='padding:12px 0; border-bottom:1px solid #f0ece1; color:#767285; width:38%;'>WhatsApp Updates</td><td style='padding:12px 0; border-bottom:1px solid #f0ece1; font-weight:600;'><span style='color:#15803d;'>" + HttpUtility.HtmlEncode(phone.Trim()) + "</span></td></tr>";
 
-            string logoUrl = "https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png";
+            string logoUrl = "https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6.png";
 
             mail.Body = @"
 <!DOCTYPE html>
@@ -192,7 +192,7 @@ public class Subscribe : IHttpHandler
                 ? ""
                 : "<tr><td style='padding:12px 0; border-bottom:1px solid #f0ece1; color:#767285; width:38%;'>WhatsApp Phone</td><td style='padding:12px 0; border-bottom:1px solid #f0ece1; font-weight:600;'><span style='color:#15803d;'>" + HttpUtility.HtmlEncode(phone.Trim()) + "</span></td></tr>";
 
-            string logoUrl = "https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/logo.png";
+            string logoUrl = "https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6.png";
 
             mail.Body = @"
 <!DOCTYPE html>
