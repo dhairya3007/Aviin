@@ -5,6 +5,7 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+  included_files = ["public/**"]
 
 # Route /api/subscribe to Netlify serverless function
 [[redirects]]

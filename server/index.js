@@ -2,9 +2,30 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { getSubscriberEmailHtml, getAdminEmailHtml } from './emailTemplates.js';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const logoPath = path.resolve(__dirname, '../public/6.png');
+
+const getLogoAttachments = () => {
+  if (fs.existsSync(logoPath)) {
+    return [
+      {
+        filename: false, // Prevents Gmail from showing an attachment chip in the inbox
+        path: logoPath,
+        cid: 'aviin-logo-header',
+        contentDisposition: 'inline',
+      },
+    ];
+  }
+  return [];
+};
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -137,12 +158,14 @@ app.post('/api/subscribe', async (req, res) => {
           to: cleanEmail,
           subject: 'Welcome to Aviin Family',
           html: subscriberHtml,
+          attachments: getLogoAttachments(),
         });
         const adminInfo = await transporter.sendMail({
           from: `"${fromName}" <${fromEmail}>`,
           to: adminEmail,
           subject: `[Aviin Alert] New Member: ${cleanEmail}`,
           html: adminHtml,
+          attachments: getLogoAttachments(),
         });
         subscriberPreviewUrl = nodemailer.getTestMessageUrl(subscriberInfo);
         adminPreviewUrl = nodemailer.getTestMessageUrl(adminInfo);
@@ -154,12 +177,14 @@ app.post('/api/subscribe', async (req, res) => {
             to: cleanEmail,
             subject: 'Welcome to Aviin Family',
             html: subscriberHtml,
+            attachments: getLogoAttachments(),
           }),
           transporter.sendMail({
             from: `"${fromName}" <${fromEmail}>`,
             to: adminEmail,
             subject: `[Aviin Alert] New Member: ${cleanEmail}`,
             html: adminHtml,
+            attachments: getLogoAttachments(),
           }),
         ]).then(() => {
           console.log(`[Aviin SMTP] Dual emails successfully dispatched to ${cleanEmail} and ${adminEmail}`);

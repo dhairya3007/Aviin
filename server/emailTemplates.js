@@ -1,7 +1,19 @@
 /**
  * Aviin Pure Luxury Clothing — Clean Email Templates for Aviin Family
  */
-const DEFAULT_LOGO_URL = process.env.LOGO_URL || 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6.png';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const localLogoPath = path.resolve(__dirname, '../public/6.png');
+
+export const DEFAULT_LOGO_URL = process.env.LOGO_URL || (
+  fs.existsSync(localLogoPath)
+    ? 'cid:aviin-logo-header'
+    : 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6.png'
+);
 
 export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_URL }) {
   const cleanPhone = phone && String(phone).trim() && String(phone).trim() !== 'null' && String(phone).trim() !== 'undefined'
@@ -21,15 +33,37 @@ export function getSubscriberEmailHtml({ email, phone, logoUrl = DEFAULT_LOGO_UR
   <meta charset="utf-8">
   <title>Welcome to Aviin Family</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <style>
+    :root {
+      color-scheme: light;
+      supported-color-schemes: light;
+    }
+    .email-header-white {
+      background-color: #ffffff !important;
+      background: #ffffff linear-gradient(#ffffff, #ffffff) !important;
+    }
+    @media (prefers-color-scheme: dark) {
+      .email-header-white {
+        background-color: #ffffff !important;
+        background: #ffffff linear-gradient(#ffffff, #ffffff) !important;
+      }
+    }
+    [data-ogsc] .email-header-white {
+      background-color: #ffffff !important;
+      background: #ffffff linear-gradient(#ffffff, #ffffff) !important;
+    }
+  </style>
 </head>
 <body style="margin: 0; padding: 36px 16px; background-color: #f7f5f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #231f36;">
   <center>
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e5dfd3; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,0.05); text-align: left;">
       
-      <!-- Aviin Header Part (White background) -->
+      <!-- Aviin Header Part (Locked Solid White background even in Dark Mode) -->
       <tr>
-        <td style="padding: 30px 24px 22px; background-color: #ffffff; border-bottom: 1px solid #f0ece1; text-align: center;">
-          <img src="${logoUrl}" alt="AVIIN" width="165" style="display: block; margin: 0 auto; width: 165px; max-width: 165px; height: auto;" />
+        <td class="email-header-white" style="padding: 28px 24px 22px; background-color: #ffffff !important; background: #ffffff linear-gradient(#ffffff, #ffffff) !important; border-bottom: 1px solid #f0ece1; text-align: center;">
+          <img src="${logoUrl}" alt="AVIIN" width="180" style="display: block; margin: 0 auto; width: 180px; max-width: 180px; height: auto; border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; background-color: #ffffff;" />
         </td>
       </tr>
 
@@ -86,15 +120,37 @@ export function getAdminEmailHtml({ email, phone, timestamp, logoUrl = DEFAULT_L
   <meta charset="utf-8">
   <title>New Aviin Family Member</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <style>
+    :root {
+      color-scheme: light;
+      supported-color-schemes: light;
+    }
+    .email-header-white {
+      background-color: #ffffff !important;
+      background: #ffffff linear-gradient(#ffffff, #ffffff) !important;
+    }
+    @media (prefers-color-scheme: dark) {
+      .email-header-white {
+        background-color: #ffffff !important;
+        background: #ffffff linear-gradient(#ffffff, #ffffff) !important;
+      }
+    }
+    [data-ogsc] .email-header-white {
+      background-color: #ffffff !important;
+      background: #ffffff linear-gradient(#ffffff, #ffffff) !important;
+    }
+  </style>
 </head>
 <body style="margin: 0; padding: 36px 16px; background-color: #f7f5f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #231f36;">
   <center>
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e5dfd3; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,0.05); text-align: left;">
       
-      <!-- Aviin Header Part (White background) -->
+      <!-- Aviin Header Part (Locked Solid White background even in Dark Mode) -->
       <tr>
-        <td style="padding: 30px 24px 22px; background-color: #ffffff; border-bottom: 1px solid #f0ece1; text-align: center;">
-          <img src="${logoUrl}" alt="AVIIN" width="165" style="display: block; margin: 0 auto; width: 165px; max-width: 165px; height: auto;" />
+        <td class="email-header-white" style="padding: 28px 24px 22px; background-color: #ffffff !important; background: #ffffff linear-gradient(#ffffff, #ffffff) !important; border-bottom: 1px solid #f0ece1; text-align: center;">
+          <img src="${logoUrl}" alt="AVIIN" width="180" style="display: block; margin: 0 auto; width: 180px; max-width: 180px; height: auto; border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; background-color: #ffffff;" />
         </td>
       </tr>
 
