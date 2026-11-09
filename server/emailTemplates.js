@@ -7,12 +7,14 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const localLogoPath = path.resolve(__dirname, '../public/6.png');
+const localLogoPath = path.resolve(__dirname, '../public/6-white-background.png');
+const fallbackPath = path.resolve(__dirname, '../public/6.png');
+const resolvedLogoPath = fs.existsSync(localLogoPath) ? localLogoPath : fallbackPath;
 
 export const DEFAULT_LOGO_URL = process.env.LOGO_URL || (
-  fs.existsSync(localLogoPath)
+  fs.existsSync(resolvedLogoPath)
     ? 'cid:aviin-logo-header'
-    : 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6.png'
+    : 'https://raw.githubusercontent.com/dhairya3007/Aviin/main/public/6-white-background.png'
 );
 
 const SOCIAL_LINKS = {

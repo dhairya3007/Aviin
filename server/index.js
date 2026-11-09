@@ -11,7 +11,9 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const logoPath = path.resolve(__dirname, '../public/6.png');
+const localLogoPath = path.resolve(__dirname, '../public/6-white-background.png');
+const fallbackLogoPath = path.resolve(__dirname, '../public/6.png');
+const logoPath = fs.existsSync(localLogoPath) ? localLogoPath : fallbackLogoPath;
 
 const getLogoAttachments = () => {
   if (fs.existsSync(logoPath)) {
