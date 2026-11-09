@@ -25,11 +25,11 @@ public class Subscribe : IHttpHandler
     private string SmtpHost     = "smtp.gmail.com";        // e.g., smtp.gmail.com
     private int    SmtpPort     = 587;                     // 587 (TLS/STARTTLS) or 465 (SSL)
     private bool   EnableSsl    = true;
-    private string SmtpUser     = "your-email@gmail.com";  // Your SMTP email / username
-    private string SmtpPass     = "your-app-password";     // Your SMTP password or App Password
-    private string FromEmail    = "noreply@aviin.com";     // Display From email address
+    private string SmtpUser     = "INFO@AVIIN.CO.UK";      // Your SMTP email / username
+    private string SmtpPass     = "ldurzzzqybfkgdbg";      // Your SMTP password or App Password
+    private string FromEmail    = "INFO@AVIIN.CO.UK";      // Display From email address
     private string FromName     = "Aviin Family";          // Sender display name
-    private string AdminEmail   = "admin@aviin.com";       // Where notifications of new subscribers are sent
+    private string AdminEmail   = "INFO@AVIIN.CO.UK";      // Where notifications of new subscribers are sent
 
     public void ProcessRequest(HttpContext context)
     {

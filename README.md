@@ -152,3 +152,18 @@ Aviin/
 └── vite.config.js                              # Vite dev server with /api proxy
 ```
 
+
+
+
+# Aviin Local Environment
+PORT=5000
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=INFO@AVIIN.CO.UK
+SMTP_PASS=ldur zzzq ybfk gdbg
+
+FROM_NAME="Aviin Family"
+FROM_EMAIL="INFO@AVIIN.CO.UK"
+ADMIN_EMAIL="INFO@AVIIN.CO.UK"
